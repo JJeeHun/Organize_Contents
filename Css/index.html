@@ -73,19 +73,45 @@
             height: 100%;
         }
 
+        @media screen and (max-width: 700px) {
+            .rightContainer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 50px;
+                height: 50px;
+                transition: all .3s ease-in-out;
+            }
+            .rightContainer.show {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .rightContainer * {
+                visibility: hidden;
+            }
+            .rightContainer.show * {
+                visibility: inherit;
+            }
+
+            .mainContainer {
+                width: 100%;
+            }
+        }
+
     </style>
 
 
     <!-- Main -->
     <main class="mainContainer">
-        <iframe id="mainContentFrame" src="./Transition.html" frameborder="0"></iframe>
+        <iframe id="mainContentFrame" src="./grid-template-columns.html" frameborder="0"></iframe>
     </main>
 
     <!-- LEFT -->
     <aside class="rightContainer">
         <ul class="Categorys">
             <li>
-                <label for="Category1">Css</label><input type="checkbox" id="Category1" name="Category" />
+                <label for="Category1">Css default props</label><input type="checkbox" id="Category1" name="Category" />
                 <ul class="subCategorys">
                     <li>
                         <a href="./Transition.html">transition</a>
@@ -94,22 +120,14 @@
             </li>
 
             <li>
-                <label for="Category2">그리드</label><input type="checkbox" id="Category2" name="Category" />
+                <label for="Category2">display Grid</label><input type="checkbox" id="Category2" name="Category" />
                 <ul class="subCategorys">
                     <li>
-                        <a href="./Grid.html">그리드</a>
+                        <a href="./grid-template-columns.html">grid-template-columns</a>
                     </li>
                 </ul>
             </li>
 
-            <li>
-                <label for="Category3">그리드</label><input type="checkbox" id="Category3" name="Category" />
-                <ul class="subCategorys">
-                    <li>
-                        <a href="./Grid.html">그리드</a>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </aside>
 
@@ -120,16 +138,25 @@
         // (function() {
             //패스 이름에 따라서 iframe에 동적 바인딩
             const mainFrame = mainContentFrame;
+            const rightContainer = document.querySelector('.rightContainer');
             const Categorys = document.querySelector('.Categorys');
 
             Categorys.addEventListener('click',(event) => {
                 const {tagName,pathname} = event.target;
-
                 if(tagName === "A") {
                     event.preventDefault();
                     mainFrame.src = pathname;
+                    const paths = pathname.split('/');
+                    const title = paths[paths.length-1].replace('.html','');
+                    
+                    document.querySelector('title').innerText = title;
                 }
                 
+            });
+
+            rightContainer.addEventListener('click',(event) => {
+                const cTarget = event.currentTarget;
+                cTarget.classList.toggle('show');
             })
         // })();
         

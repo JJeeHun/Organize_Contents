@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grid-template-columns</title>
+    <link rel="stylesheet" href="../init.css">
+</head>
+<body>
+    <style>
+        :root {
+            --label-width : 120px;
+            --height : 100px;
+        }
+        .grid_contatiner {
+            display: grid;
+            grid-template-columns: 200px 200px 500px;
+            border: 5px solid lightcoral;
+            padding: 10px 10px;
+            margin: 10px 10px;
+            overflow: hidden;
+            box-sizing: border-box;
+            /* row-gap: 10px;
+            column-gap: 10px; */
+            gap: 10px;
+        }
+
+        .controll_box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;;
+            padding: 0 20px;
+            height: calc( var(--height) * 1);
+        }
+
+        .grid_item {
+            border: 5px solid lightseagreen;
+            text-align: center;
+        }  
+        
+        .box {
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        .label {
+            display: inline-block;
+            width: var(--label-width);
+        }
+        button {
+            width: var(--label-width);
+        }
+
+        .description {
+            font-weight: 600;
+        }
+        .description ul li {
+            padding-bottom: 5px;
+        }
+        .description .treeOne {
+            padding: 10px 50px;
+        }
+        .description .treeTwo {
+            padding: 10px 20px;
+        }
+        @media screen and (max-width : 900px) {
+            .controll_box {height: calc( var(--height) * 2);}
+            
+        }
+    </style>
+    <header>
+        <h1>grid-template-columns</h1>
+        <div class="headerEx">
+            <span class="ex">
+                grid-template-columns-> 그리드의 컬럼 사이즈를 조절하는 속성
+            </span>
+        </div>
+    </header>
+    <div class="contatiner">
+        <!-- controll_box Start -->
+        <div class="controll_box">
+            <div class="box">
+                <div class="label"> 아이템 카운트</div>
+                <select name="item_cnt" id="item_cnt">
+                    <option value="4">4개</option>
+                    <option value="10" selected>10개</option>
+                    <option value="20">20개</option>
+                    <option value="30">30개</option>
+                    <option value="40">40개</option>
+                </select>
+            </div>
+            
+            <div class="box">
+                <div class="label"> 사이즈 설정</div>                
+                <div id="item_sizes" class="box">
+                    <input type="text" value="minmax(100px,auto)">
+                    <input type="text" value="20%">
+                    <input type="text" value="300px">
+                    <input type="text" value="0.5fr">
+                </div>
+                <button id="item_run_btn" onclick="setGridItemSize();">적용</button>
+            </div>
+        </div>
+        <!-- controll_box End -->
+
+        <!-- Grid Start -->
+        <div class="grid_contatiner">
+            <div class="grid_item">
+                item
+            </div>            
+        </div>
+        <!-- Grid End -->
+
+        <div class="description ex">
+            <!-- <ul>
+                <li>ex) 사용가능 단위 px, %, fr -> fr = 비율(1:1:1, 1:2:3)등</li>
+                <li>{ function } repeat(반복횟수,컬럼의 넓이) -> repeat(5,1fr)</li>
+                <li>{ function } minmax(최소값,최대값) -> minmax(100px, auto)의 의미는 최소한 100px, 최대는 자동으로(auto) 늘어나게</li>
+                <li>{ auto-fill, auto-fit } box 4개로 설정 후 테스트 repeat(auto-fill, minmax(20%, auto))</li>
+                <li>- auto-fill -> 20%로 설정했으므로 1개의 공간이 남는다. </li>
+                <li>- auto-fit  -> 남는 공간을 자동으로 채운다.</li>
+            </ul> -->
+
+            <ul class="treeOne">
+                <li>ex) <a href="https://studiomeal.com/archives/533" target='_blank'>참조사이트</a></li>
+                <li>ex) 사용가능 단위 px, %, fr -> fr = 비율(1:1:1, 1:2:3)등</li>
+                <li>
+                    Function - repeat, minmax
+                    <ul class="treeTwo">
+                        <li>{ function } repeat(반복횟수,컬럼의 넓이) -> repeat(5,1fr)</li>
+                        <li>{ function } minmax(최소값,최대값) -> minmax(100px, auto)의 의미는 최소한 100px, 최대는 자동으로(auto) 늘어나게</li>
+                    </ul>
+
+                </li>
+                <li>
+                    Property - auto-fill, auto-fit, gap, row-gap, column-gap
+                    <ul class="treeTwo">
+                        <li> ex) box 4개로 설정 후 테스트, 테스트 사이즈 설정 :: repeat(auto-fill, minmax(20%, auto))</li>
+                        <li>-- auto-fill -> 20%로 설정했으므로 1개의 공간이 남는다. </li>
+                        <li>-- auto-fit  -> 남는 공간을 자동으로 채운다.</li>
+                        <li>-- gap       -> row-gap, column-gap의 축약형 - gap : rowSize, columnSize</li>
+                        <li>-- row-gap   -> row의 간격을 설정</li>
+                        <li>-- column-gap -> column의 간격을 설정</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    
+
+    <script>
+        const grid_contatiner = document.querySelector('.grid_contatiner');
+        const item_sizes = document.querySelector('#item_sizes');;
+        const itemCnt_node = document.querySelector('#item_cnt');
+
+        itemCnt_node.addEventListener('change',(event) => setGridItems(event.currentTarget.value));
+        item_sizes.addEventListener('keydown',(event) => {
+            if(event.keyCode !== 13) return;
+            setGridItemSize();
+        });
+        
+
+        const setGridItems = (count) => {
+            const defaultText = 'item_';
+            const prevDiv = '<div class="grid_item">';
+            const nextDiv = '</div> ';
+            const grid_items = Array(Number(count)).fill(defaultText).map( (text,i) => prevDiv+(text+(i+1))+nextDiv);
+
+            grid_contatiner.innerHTML = grid_items.join('');
+        }
+
+        const setGridItemSize = () => {
+            const items = [...item_sizes.children];
+            const values = items.map(item => item.value);
+            
+            grid_contatiner.style.gridTemplateColumns = values.join(' ');
+
+        }
+
+        //load시 실행
+        setGridItems(itemCnt_node.value);
+        setGridItemSize();
+    </script>
+</body>
+</html>

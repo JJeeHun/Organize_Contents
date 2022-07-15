@@ -31,3 +31,11 @@ body {
     font-weight: bold;
     font-family: 'Koulen', cursive;
 }
+
+h1 {
+    padding: 10px 20px;
+}
+
+.headerEx {
+    padding-left:20px;
+}
