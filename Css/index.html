@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Css</title>
+    <link rel="stylesheet" href="../init.css">
+</head>
+<body>
+    <style>
+        /* initialize Start */
+        body {
+            display: flex;
+            font-size: 3rem;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        /* initialize End */
+
+        /* Left 컨테이너 */
+        .rightContainer {
+            background: lightcoral;
+            width: 20%;
+        }
+
+        .rightContainer > .Categorys {
+            margin: 10px 0 0 30px;
+        }
+
+        .rightContainer > .Categorys > li {
+            padding-bottom: 5px;
+        }
+
+        .rightContainer input[name="Category"] {
+            display: none;
+        }
+
+        .rightContainer label[for*="Category"]  {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .rightContainer > .Categorys .subCategorys {
+            padding-left:25px;
+            max-height: 0;
+            overflow: hidden;
+            visibility: hidden;
+            transition: all .3s ease;
+            /* background: lightgreen; */
+        }
+
+        .rightContainer input[name="Category"]:checked ~ .subCategorys{
+            transition: all 2s ease;
+            max-height: 100vw;
+            visibility: visible;
+        }
+
+        /* Main 컨테이너 */
+        .mainContainer {
+            background: lightcyan;
+            overflow: hidden;
+            width: 80%;
+        }
+
+
+        /* 컨텐츠 내용 iframe */
+        #mainContentFrame {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+
+
+    <!-- Main -->
+    <main class="mainContainer">
+        <iframe id="mainContentFrame" src="./Transition.html" frameborder="0"></iframe>
+    </main>
+
+    <!-- LEFT -->
+    <aside class="rightContainer">
+        <ul class="Categorys">
+            <li>
+                <label for="Category1">Css</label><input type="checkbox" id="Category1" name="Category" />
+                <ul class="subCategorys">
+                    <li>
+                        <a href="./Transition.html">transition</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <label for="Category2">그리드</label><input type="checkbox" id="Category2" name="Category" />
+                <ul class="subCategorys">
+                    <li>
+                        <a href="./Grid.html">그리드</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <label for="Category3">그리드</label><input type="checkbox" id="Category3" name="Category" />
+                <ul class="subCategorys">
+                    <li>
+                        <a href="./Grid.html">그리드</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    
+
+
+    <script>
+        // (function() {
+            //패스 이름에 따라서 iframe에 동적 바인딩
+            const mainFrame = mainContentFrame;
+            const Categorys = document.querySelector('.Categorys');
+
+            Categorys.addEventListener('click',(event) => {
+                const {tagName,pathname} = event.target;
+
+                if(tagName === "A") {
+                    event.preventDefault();
+                    mainFrame.src = pathname;
+                }
+                
+            })
+        // })();
+        
+
+    </script>
+
+</body>
+</html>
